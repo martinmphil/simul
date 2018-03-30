@@ -1,5 +1,5 @@
 # simul
-tabletop role-playing game
+Tabletop role-playing game
 
 Example JavaScript web app at [EnchantedStar.co.uk/rpg](https://enchantedstar.co.uk/rpg/)
 and outline [rules](https://enchantedstar.co.uk/rpg/rules/index.html)
