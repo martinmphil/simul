@@ -1,4 +1,4 @@
-# simul
+# Simul
 Tabletop role-playing game
 
 Example JavaScript web app at [EnchantedStar.co.uk/rpg](https://enchantedstar.co.uk/rpg/)
