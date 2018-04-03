@@ -11,8 +11,7 @@ Basically:-
 * enter the number of active players,
 * app says which dice to roll.
 
-Simulations cover any comparable measure eg knights in an army, spaceships in opposing fleets, diplomats in rival trade missions, etc.
-In this open-ended system "Us" and "Them" values can sum any number of units.
+Simulations cover any comparable measure (eg knights in an army, spaceships in opposing fleets, diplomats in rival trade missions, etc.) In this open-ended system "Us" and "Them" values can sum any number of units.
 
 Summary
 * JavaScript app for tabletop role-playing game
