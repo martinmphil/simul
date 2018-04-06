@@ -1,0 +1,160 @@
+/* width & height includes padding + border for responsive web design */
+* {
+  box-sizing: border-box;
+}
+body {
+  background-color: black;
+  color: white;
+  font-family: "Cabin", "Trebuchet MS", Helvetica, sans-serif;
+}
+/* central column */
+.col{
+  padding-left: 4%;
+  padding-right: 4%;
+}
+/* link to enchantedstar.co.uk home page */
+#link_to_homepage{
+  float: right;
+  color: white;
+  background-color: #cca300;
+  border: solid;
+  border-color: rgba(0,0,0,0.1);
+  border-radius:8px;
+  padding: 0.5em 0.5em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  width: 16em;
+}
+
+.clear_floats{
+  clear:both;
+}
+
+/* section holding buttons to select number of players */
+#playerNbrsSection{
+  display: -webkit-flex; /* Safari */
+  -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+  display: flex;
+  flex-wrap: wrap-reverse;
+}
+/* buttons to select number of players */
+.playerNbrsBttn {
+  font-size: 150%;
+  margin: 0.4em 0.4em;
+  border: solid;
+  border-color: rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  padding: 0.6em 1em;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+.selectedBttn {
+  background-color: white;
+  color: black;
+  cursor:auto;
+}
+.unselectedBttn {
+  background-color: #4CAF50; /* green */
+  color: white;
+}
+/* style displaying dice instructions */
+#dice_roll_instructions {
+  margin: 2%;
+  font-size: 300%;
+  text-align: center;
+}
+/* style displaying "roll greater than t" */
+#generalPrinciple {
+  color: rgb(150,150,150); /* mid grey */
+}
+/* style displaying force-ratio */
+#displayFR {
+  text-align: right;
+}
+/* styling Calculate Button */
+#calculateBttn {
+  background-color: #4CAF50; /* green */
+  color: white;
+  margin: 0.2em;
+  border: solid;
+  border-color: rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  padding: 0.5em;
+  text-align: center;
+  text-decoration: none;
+  font-size: 120%;
+  cursor: pointer;
+}
+/* styling Reset Button */
+#resetBttn {
+  background-color: rgb(96,96,96); /* darker grey */
+  color: rgb(200,200,200); /* lighter grey */
+  margin: 0.2em;
+  border: solid;
+  border-color: rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  padding: 0.5em;
+  text-align: center;
+  text-decoration: none;
+  font-size: 120%;
+  cursor: pointer;
+}
+
+/* styling all number input boxes */
+input[type=number] {
+  width: 100%;
+  padding: 0.5em;
+  font-size: 100%;
+}
+/* both blue and red sections */
+.nbrInputSections {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+/* styling Us Section */
+.UsSection {
+  background-color: #000066; /* dark blue */
+}
+/* styling Them Section */
+.ThemSection {
+  background-color: #4d0019; /* dark red */
+}
+.inner_col {
+  width: 48%;
+  display: inline-block;
+}
+#rules {
+  color: #cca300;
+  margin-top: 2em;
+}
+.lower_page_links {
+  margin-bottom: 0.5em;
+  background-color: rgb(96,96,96); /* darker grey */
+  color: #cca300;
+  border: solid;
+  border-color: rgba(0,0,0,0.1);
+  border-radius:8px;
+  padding: 0.5em 0.5em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  width: 16em;
+}
+
+/* responsive web design */
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  .col {
+    width: 66%;
+    margin: auto;
+  }
+  .inner_col {
+    width: 100%;
+  }
+}
