@@ -20,8 +20,8 @@ Summary
 * Open-ended
 * Simultaneous resolution of action
 
-Example JavaScript web app at [EnchantedStar.co.uk/rpg](https://enchantedstar.co.uk/rpg/)
-and outline [rules](https://enchantedstar.co.uk/rpg/rules/index.html)
+Example JavaScript web app at [DanceWith.co.uk/tabletop2019/](http://www.dancewith.co.uk/tabletop2019/index.html)
+and outline [rules](http://www.dancewith.co.uk/rpg)
 with example [adventures](https://enchantedstar.co.uk/)
 eg science-fiction :-
 
