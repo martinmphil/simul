@@ -1,83 +1,99 @@
 <!DOCTYPE html>
-
 <html lang="en-GB">
-<head>
-<meta charset="utf-8" />
-<title>Us-vs-Them: tabletop role-playing game</title>
+<meta charset="utf-8">
+<title>2019 us-vs-them: tabletop role-playing game</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="Us-vs-Them role-playing game dice mechanic." />
-<meta name="keywords" content="Us-vs-Them, dice mechanic, RPG, role-playing game" />
-<meta name="author" content="martin@dancewith.co.uk" />
-<meta name="created" content="2017-02-06" />
-<link rel="icon" type="image/x-icon" sizes="16x16" href="http://www.dancewith.co.uk/favicon.ico">
-<link rel="icon" type="image/png" sizes="192x192" href="http://www.dancewith.co.uk/android-icon-192x192.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://www.dancewith.co.uk/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="96x96" href="http://www.dancewith.co.uk/favicon-96x96.png">
-<link rel="icon" type="image/png" sizes="16x16" href="http://www.dancewith.co.uk/favicon-16x16.png">
-<link rel="stylesheet" type="text/css" href="simul2018.css" />
-</head>
-
-<body onload="initial_settings()">
-<script src="simul2018.js" defer></script>
-
-<div class="col"><!--open col-->
-
-  <div>
-    <a id="link_to_homepage" href="https://enchantedstar.co.uk/">EnchantedStar.co.uk homepage</a>
-  </div>
-  <p class="clear_floats"> </p>
-
-  <p>Players roll one dice each.</p>
+<link rel="stylesheet" type="text/css" href="simul2018-04-27.css" />
+<body>
+<div id="col"><!--open col-->
+  <button type="button" id="reset_button" class="gerneric_button">Reset</button>
+  <a class="top_right_link_back" href="http://www.dancewith.co.uk/rpg/">DanceWith.co.uk/rpg</a>
   <p>Please select number of players.</p>
-  <div id="playerNbrsSection"><!--open section holding buttons to select number of players-->
-    <input type="button" class="playerNbrsBttn unselectedBttn" id="bttn1" value="1">
-    <input type="button" class="playerNbrsBttn unselectedBttn" id="bttn2" value="2">
-    <input type="button" class="playerNbrsBttn selectedBttn" id="bttn3" value="3">
-    <input type="button" class="playerNbrsBttn unselectedBttn" id="bttn4" value="4">
-    <input type="button" class="playerNbrsBttn unselectedBttn" id="bttn5" value="5">
-    <input type="button" class="playerNbrsBttn unselectedBttn" id="bttn6" value="6">
+  <div id="pNbrs"><!--open section holding buttons to select number of players-->
+    <input type="button" class="playerNbrsBttn availBttn" id="pbttn1" value="1">
+    <input type="button" class="playerNbrsBttn availBttn" id="pbttn2" value="2">
+    <input type="button" class="playerNbrsBttn availBttn" id="pbttn3" value="3">
+    <input type="button" class="playerNbrsBttn availBttn" id="pbttn4" value="4">
+    <input type="button" class="playerNbrsBttn availBttn" id="pbttn5" value="5">
+    <input type="button" class="playerNbrsBttn availBttn" id="pbttn6" value="6">
+    <!--<input type="button" class="playerNbrsBttn availBttn" id="pbttn7" value="7">
+    <input type="button" class="playerNbrsBttn availBttn" id="pbttn8" value="8">
+    <input type="button" class="playerNbrsBttn availBttn" id="pbttn9" value="9">
+    -->
   </div><!--close section holding buttons to select number of players-->
-
-  <!--display dice instructions-->
-  <div id="dice_roll_instructions">
-    Please enable JavaScript and/or upgrade your browser.
-  </div>
-
-  <!--subtle display of force-ratio-->
-  <div id="displayFR">
-    <span id="generalPrinciple">(roll≥t)</span> Us÷Them = <span id="fRnote">1.00</span>
-  </div>
-
-  <form>
-    <input type="button" value="Calculate" id="calculateBttn" tabindex="5">
-    <input type="reset" id="resetBttn">
-    <div class="UsSection nbrInputSections">
-        <div class="inner_col">
-            <label>Us</label>
-            <input type="number" id="usInput" min="0" value="10" autofocus tabindex="1">
-        </div>
-        <div class="inner_col">
-            <label>adv</label>
-            <input type="number" id="advUsInput" value="0" tabindex="2">
-        </div>
-    </div>
-    <div class="ThemSection nbrInputSections">
-        <div class="inner_col">
-            <label class="labellingUsThem">Them</label>
-            <input type="number" id="themInput" min="0" value="10" tabindex="3">
-        </div>
-        <div class="inner_col">
-            <label class="labellingAdvantages">adv</label>
-            <input type="number" id="advThemInput" value="0" tabindex="4">
-        </div>
-    </div>
-  </form>
-
-  <p id="rules">Rules summary:- Players state intentions. Players roll one dice each. All players progress if ANY player meets or beats target roll. Otherwise players suffer setbacks, give ground, take losses or <em>progress with consequences</em>. </p>
-  <p><a href="http://www.dancewith.co.uk/tabletop2018/rules/index.html" class="lower_page_links">Rulebook</a></p>
-  <p><a href="http://www.dancewith.co.uk/tabletop2018/adv/index.html" class="lower_page_links">Potential party advantages</a></p>
-  <p><a href="http://www.dancewith.co.uk/tabletop2018/usvsthem9p.html" class="lower_page_links">Up to nine players</a></p>
-
 </div><!--close col-->
+<div id="blue_and_red_sections">
+  <section id="us_section" class="us_and_them">
+    <h2>Us </h2>
+    <input type="number" id="us_input" min="0" value="10">
+    <div class="keypad">
+      <div class="keypad_row">
+        <input type="button" class="gerneric_button casio us_nbr_keypad" value="7">
+        <input type="button" class="gerneric_button casio us_nbr_keypad" value="8">
+        <input type="button" class="gerneric_button casio us_nbr_keypad" value="9">
+      </div>
+      <div class="keypad_row">
+        <input type="button" class="gerneric_button casio us_nbr_keypad" value="4">
+        <input type="button" class="gerneric_button casio us_nbr_keypad" value="5">
+        <input type="button" class="gerneric_button casio us_nbr_keypad" value="6">
+      </div>
+      <div class="keypad_row">
+        <input type="button" class="gerneric_button casio us_nbr_keypad" value="1">
+        <input type="button" class="gerneric_button casio us_nbr_keypad" value="2">
+        <input type="button" class="gerneric_button casio us_nbr_keypad" value="3">
+      </div>
+      <div class="keypad_row">
+        <input type="button" class="casio spacer" value=".">
+        <input type="button" class="gerneric_button casio us_nbr_keypad" value="0">
+        <input type="button" id="us_clear_button" class="gerneric_button casio dim_button" value="c">
+      </div>
+      <div class="us_adv_row">
+        <div class="adv_heading">Advantages</div>
+        <input type="button" id="us_adv_minus_button" class="gerneric_button casio dim_button us_adv_disadv" value="-">
+        <input type="number" id="us_adv_input" class="show_adv us_adv_disadv" value="0">
+        <input type="button" id="us_adv_plus_button" class="gerneric_button casio us_adv_disadv" value="+">
+      </div>
+    </div><!--close keypad-->
+  </section>
+  <section id="them_section" class="us_and_them">
+    <h2>Them </h2>
+    <input type="number" id="them_input" min="0" value="10">
+    <div class="keypad">
+      <div class="keypad_row">
+        <input type="button" class="gerneric_button casio them_nbr_keypad" value="7">
+        <input type="button" class="gerneric_button casio them_nbr_keypad" value="8">
+        <input type="button" class="gerneric_button casio them_nbr_keypad" value="9">
+      </div>
+      <div class="keypad_row">
+        <input type="button" class="gerneric_button casio them_nbr_keypad" value="4">
+        <input type="button" class="gerneric_button casio them_nbr_keypad" value="5">
+        <input type="button" class="gerneric_button casio them_nbr_keypad" value="6">
+      </div>
+      <div class="keypad_row">
+        <input type="button" class="gerneric_button casio them_nbr_keypad" value="1">
+        <input type="button" class="gerneric_button casio them_nbr_keypad" value="2">
+        <input type="button" class="gerneric_button casio them_nbr_keypad" value="3">
+      </div>
+      <div class="keypad_row">
+        <input type="button" class="casio spacer" value=".">
+        <input type="button" class="gerneric_button casio them_nbr_keypad" value="0">
+        <input type="button" id="them_clear_button" class="gerneric_button casio dim_button" value="c">
+      </div>
+      <div class="them_adv_row">
+        <div class="adv_heading">Advantages</div>
+        <input type="button" id="them_adv_minus_button" class="gerneric_button casio dim_button them_adv_disadv" value="-">
+        <input type="number" id="them_adv_input" class="show_adv them_adv_disadv" value="0">
+        <input type="button" id="them_adv_plus_button" class="gerneric_button casio them_adv_disadv" value="+">
+      </div>
+    </div><!--close keypad-->
+  </section>
+</div><!--blue_and_red_sections-->
+<div id="dice_roll_instructions">
+  Please enable JavaScript and/or upgrade your browser.
+</div>
+<div id="we_they_summary">
+  we versus they
+</div>
+<script src="simul2019.js"></script>
 </body>
 </html>

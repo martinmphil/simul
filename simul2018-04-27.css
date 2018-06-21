@@ -1,0 +1,156 @@
+/* width & height includes padding + border for responsive web design */
+* {
+  box-sizing: border-box;
+}
+body, p  {
+  background-color: black;
+  color: white;
+  font-family: "Cabin", "Trebuchet MS", Helvetica, sans-serif;
+  clear:both;
+}
+/* central column */
+#col {
+  padding-left: 4%;
+  padding-right: 4%;
+}
+.top_right_link_back {
+  font-size:small;
+  text-decoration: none;
+  color: rgba(204, 163, 0, 0.8);
+  float: right;
+}
+.gerneric_button {
+  border: solid;
+  border-color: rgba(0, 0, 0, 0.4);
+  border-radius: 0.4em;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+#reset_button {
+  padding: 0.6em 1em;
+  opacity: 0.9;
+}
+/* JS alters class in div selecting number of players */
+#pNbrs{
+  display: -webkit-flex; /* Safari */
+  -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: center;
+}
+/* buttons to select number of players */
+.playerNbrsBttn {
+  font-size: 150%;
+  margin: 0.2em 0.2em;
+  border: solid;
+  border-color: rgba(0, 0, 0, 0.4);
+  border-radius: 0.4em;
+  padding: 0.6em 1em;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+.pickedBttn {
+  background-color: white;
+  color: black;
+  cursor:auto;
+}
+.availBttn {
+  background-color: #4CAF50; /* green */
+  color: white;
+}
+#blue_and_red_sections {
+  margin: auto;
+  text-align: center;
+}
+#us_section {
+  background-color: #000066; /* dark blue */
+  text-align: center;
+}
+#them_section {
+  background-color: #4d0019; /* dark red */
+  text-align: center;
+}
+.us_and_them {
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  width: 18em;
+  margin: auto;
+  display: inline-block;
+}
+.us_and_them h2, h3 {
+  margin: 0.1em;
+  padding: 0.1em;
+  text-align: left;
+}
+#us_input {
+  font-size: 150%;
+  width: 100%;
+  padding: 0.2em;
+  margin-top: 0.2em;
+}
+#them_input {
+  font-size: 150%;
+  width: 100%;
+  padding: 0.2em;
+  margin-top: 0.2em;
+}
+.keypad {
+  width: 18em;
+  margin: auto;
+}
+.casio {
+  font-size: 150%;
+  width: 2em;
+  height: 2em;
+  margin: 0.1em;
+}
+.spacer{
+    opacity: 0;
+}
+.dim_button {
+  opacity: 0.8;
+}
+.adv_heading {
+  text-align: left;
+}
+.show_adv {
+  font-size: 120%;
+  width: 4em;
+  margin-left: 0.4em;
+  margin-right: 0.4em;
+}
+.us_adv_row{
+  font-size: 80%;
+  color: #66e0ff; /* light-blue */
+}
+.them_adv_row{
+  font-size: 80%;
+  color:  #f08080; /* LightCoral */
+}
+.us_adv_disadv {
+  background-color: #66e0ff; /* light-blue */
+}
+.them_adv_disadv {
+  background-color: #f08080; /* LightCoral */
+}
+/* style displaying dice instructions */
+#dice_roll_instructions {
+  margin: 0.2em;
+  font-size: 300%;
+  text-align: center;
+}
+#we_they_summary {
+  margin: 0.1em;
+  opacity: 0.8;
+  text-align: center;
+}
+/* responsive web design */
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  #col {
+    width: 66%;
+    margin: auto;
+  }
+}

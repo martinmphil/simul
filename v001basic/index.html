@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html lang="en-GB">
+<head>
+<meta charset="utf-8" />
+<title>Us-vs-Them: tabletop role-playing game</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Us-vs-Them role-playing game dice mechanic." />
+<meta name="keywords" content="Us-vs-Them, dice mechanic, RPG, role-playing game" />
+<meta name="author" content="martin@dancewith.co.uk" />
+<meta name="created" content="2017-02-06" />
+<link rel="icon" type="image/x-icon" sizes="16x16" href="http://www.dancewith.co.uk/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="http://www.dancewith.co.uk/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://www.dancewith.co.uk/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="http://www.dancewith.co.uk/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="http://www.dancewith.co.uk/favicon-16x16.png">
+<link rel="stylesheet" type="text/css" href="simul2018.css" />
+</head>
+
+<body onload="initial_settings()">
+<script src="simul2018.js" defer></script>
+
+<div class="col"><!--open col-->
+
+  <div>
+    <a id="link_to_homepage" href="https://enchantedstar.co.uk/">EnchantedStar.co.uk homepage</a>
+  </div>
+  <p class="clear_floats"> </p>
+
+  <p>Players roll one dice each.</p>
+  <p>Please select number of players.</p>
+  <div id="playerNbrsSection"><!--open section holding buttons to select number of players-->
+    <input type="button" class="playerNbrsBttn unselectedBttn" id="bttn1" value="1">
+    <input type="button" class="playerNbrsBttn unselectedBttn" id="bttn2" value="2">
+    <input type="button" class="playerNbrsBttn selectedBttn" id="bttn3" value="3">
+    <input type="button" class="playerNbrsBttn unselectedBttn" id="bttn4" value="4">
+    <input type="button" class="playerNbrsBttn unselectedBttn" id="bttn5" value="5">
+    <input type="button" class="playerNbrsBttn unselectedBttn" id="bttn6" value="6">
+  </div><!--close section holding buttons to select number of players-->
+
+  <!--display dice instructions-->
+  <div id="dice_roll_instructions">
+    Please enable JavaScript and/or upgrade your browser.
+  </div>
+
+  <!--subtle display of force-ratio-->
+  <div id="displayFR">
+    <span id="generalPrinciple">(roll≥t)</span> Us÷Them = <span id="fRnote">1.00</span>
+  </div>
+
+  <form>
+    <input type="button" value="Calculate" id="calculateBttn" tabindex="5">
+    <input type="reset" id="resetBttn">
+    <div class="UsSection nbrInputSections">
+        <div class="inner_col">
+            <label>Us</label>
+            <input type="number" id="usInput" min="0" value="10" autofocus tabindex="1">
+        </div>
+        <div class="inner_col">
+            <label>adv</label>
+            <input type="number" id="advUsInput" value="0" tabindex="2">
+        </div>
+    </div>
+    <div class="ThemSection nbrInputSections">
+        <div class="inner_col">
+            <label class="labellingUsThem">Them</label>
+            <input type="number" id="themInput" min="0" value="10" tabindex="3">
+        </div>
+        <div class="inner_col">
+            <label class="labellingAdvantages">adv</label>
+            <input type="number" id="advThemInput" value="0" tabindex="4">
+        </div>
+    </div>
+  </form>
+
+  <p id="rules">Rules summary:- Players state intentions. Players roll one dice each. All players progress if ANY player meets or beats target roll. Otherwise players suffer setbacks, give ground, take losses or <em>progress with consequences</em>. </p>
+  <p><a href="http://www.dancewith.co.uk/tabletop2018/rules/index.html" class="lower_page_links">Rulebook</a></p>
+  <p><a href="http://www.dancewith.co.uk/tabletop2018/adv/index.html" class="lower_page_links">Potential party advantages</a></p>
+  <p><a href="http://www.dancewith.co.uk/tabletop2018/usvsthem9p.html" class="lower_page_links">Up to nine players</a></p>
+
+</div><!--close col-->
+</body>
+</html>
