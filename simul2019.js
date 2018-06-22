@@ -2,9 +2,10 @@
 // Pure functions with "n" players, "s" sided dice and target roll "t".
 function force_ratio(n, s, t) {
   let p = ( 1 - Math.pow( (( t- 1) / s), n) );
-  //let p = (1 - (((t-1)/s)**n));
-  let result = (p <= 0.5) ? (2 * p)
-    : (p > 0.75) ? (1 / (2 - 2 * p)) : ((4 * p) - 1);
+  let result
+    = (p <= 0.5) ? (2 * p)
+    : (p > 0.75) ? (1 / (2 - 2 * p))
+    : ((4 * p) - 1);
   return result;
 }
 function range_t(s) {
@@ -54,7 +55,7 @@ const e = (function () {
   enc.get_them = () => them;
   enc.get_us_adv = () => adv_us;
   enc.get_them_adv = () => adv_them;
-  // fn returning lists of [instruction, force_ratio] in nested arrays for each n
+  // fn returning lists of [instruction, force_ratio] in nested array for each n
   enc.force_ratio_recur = function chances(x = max_player_nbrs) {
     if (x < 1) {return;}
     let result = s_t_longlist(dice_available)
