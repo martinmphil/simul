@@ -1,9 +1,9 @@
 'use strict';
 // Pure functions with "n" players, "s" sided dice and target roll "t".
 function force_ratio(n, s, t) {
-  let p = ( 1 - Math.pow( (( t- 1) / s), n) );
+  let p = ( 1 - Math.pow( (( t - 1) / s), n) );
   let result
-    = (p <= 0.5) ? (2 * p)
+    = (p < 0.5) ? (2 * p)
     : (p > 0.75) ? (1 / (2 - 2 * p))
     : ((4 * p) - 1);
   return result;
