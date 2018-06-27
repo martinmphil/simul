@@ -23,7 +23,7 @@ function dice_s_t_pairs(x) {
 function s_t_longlist(x) {
   return x.map( (y) => dice_s_t_pairs(y) ).reduce((a, b) => a.concat(b));
 }
-function positive_finite_predicate(x) {
+function pos_finite_predicate(x) {
   if (x > 0 && Number.isFinite(x)) {
     return true;
   }
@@ -31,43 +31,42 @@ function positive_finite_predicate(x) {
 /*
 Impure functions below including:
 state closure "e" with: protagonist total, "us"; antagonist total, "them";
-advantage us, "us_adv"; advantage them, "them_adv";
+advantage us, "adv_us"; advantage them, "adv_them";
 array of polyhedral dice sides, "dice_available".
 */
-const e = (function() {
+const e = (function () {
   let max_player_nbrs = 6;
   let player_nbrs = 3;
   let us = 10;
   let them = 10;
-  let us_adv = 0;
-  let them_adv = 0;
+  let adv_us = 0;
+  let adv_them = 0;
   let dice_available = [6, 8, 12, 20, 100]; // [6, 8, 12, 20, 100]
   let enc = {};
-  enc.reset = {n:player_nbrs, u:us, t:them, ua:us_adv, ta:them_adv};
+  enc.reset = {n:player_nbrs, u:us, t:them, ua:adv_us, ta:adv_them};
   enc.change_n = (x) => player_nbrs =
     (Number.isInteger(x) && x > 0 && x <= max_player_nbrs) ? x : player_nbrs;
-  enc.change_us = (x) => us = positive_finite_predicate(x) ? x : us;
-  enc.change_them = (x) => them = positive_finite_predicate(x) ? x : them;
-  enc.change_us_adv = (x) => us_adv = Number.isFinite(x) ? x : us_adv;
-  enc.change_them_adv = (x) => them_adv = Number.isFinite(x) ? x : them_adv;
+  enc.change_us = (x) => us = pos_finite_predicate(x) ? x : us;
+  enc.change_them = (x) => them = pos_finite_predicate(x) ? x : them;
+  enc.change_us_adv = (x) => adv_us = Number.isFinite(x) ? x : adv_us;
+  enc.change_them_adv = (x) => adv_them = Number.isFinite(x) ? x : adv_them;
   enc.get_n = () => player_nbrs;
   enc.get_us = () => us;
   enc.get_them = () => them;
-  enc.get_us_adv = () => us_adv;
-  enc.get_them_adv = () => them_adv;
+  enc.get_us_adv = () => adv_us;
+  enc.get_them_adv = () => adv_them;
   // fn returning lists of [instruction, force_ratio] in nested array for each n
-  // accessed as e.arr1, e.arr2, etc.
   enc.force_ratio_recur = function chances(x = max_player_nbrs) {
     if (x < 1) {return;}
     let result = s_t_longlist(dice_available)
       .map ( ([y, z]) => [`${x}d${y} target ${z}`, force_ratio(x, y, z)] );
-    enc['arr' + x] = result.filter( ([, k]) => positive_finite_predicate(k) );
+    enc['a' + x] = result.filter( ([, k]) => pos_finite_predicate(k) );
     return chances(x - 1);
   };
   return enc;
 }());
-function calculate_us_vs_them(us, them, us_adv, them_adv) {
-  let delta_adv = us_adv - them_adv;
+function calculate_us_vs_them(us, them, adv_us, adv_them) {
+  let delta_adv = adv_us - adv_them;
   function logarithmic_scaling(delta){
     return 2 * Math.log(Math.abs(delta) + 1);
   }
@@ -77,12 +76,12 @@ function calculate_us_vs_them(us, them, us_adv, them_adv) {
   return (us / them) * force_multiplier;
 }
 function instructions(n, us_vs_them) {
-  let fr_array = e['arr' + n].map( ([,y]) => y );
+  let fr_array = e['a' + n].map( ([,y]) => y );
   let difference_array = fr_array.map( (x) => Math.abs(x - us_vs_them) );
   let least_difference = difference_array.reduce( (x, y) => Math.min(x, y) );
   // index of least different
   let i = difference_array.indexOf(least_difference);
-  return e['arr' + n][i][0];
+  return e['a' + n][i][0];
 }
 function instruct() {
   let us_vs_them = calculate_us_vs_them(
