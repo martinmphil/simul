@@ -56,11 +56,12 @@ const e = (function () {
   enc.get_us_adv = () => adv_us;
   enc.get_them_adv = () => adv_them;
   // fn returning lists of [instruction, force_ratio] in nested array for each n
+  // accessed as e.arr1, e.arr2, etc.
   enc.force_ratio_recur = function chances(x = max_player_nbrs) {
     if (x < 1) {return;}
     let result = s_t_longlist(dice_available)
       .map ( ([y, z]) => [`${x}d${y} target ${z}`, force_ratio(x, y, z)] );
-    enc['a' + x] = result.filter( ([, k]) => pos_finite_predicate(k) );
+    enc['arr' + x] = result.filter( ([, k]) => pos_finite_predicate(k) );
     return chances(x - 1);
   };
   return enc;
@@ -76,12 +77,12 @@ function calculate_us_vs_them(us, them, adv_us, adv_them) {
   return (us / them) * force_multiplier;
 }
 function instructions(n, us_vs_them) {
-  let fr_array = e['a' + n].map( ([,y]) => y );
+  let fr_array = e['arr' + n].map( ([,y]) => y );
   let difference_array = fr_array.map( (x) => Math.abs(x - us_vs_them) );
   let least_difference = difference_array.reduce( (x, y) => Math.min(x, y) );
   // index of least different
   let i = difference_array.indexOf(least_difference);
-  return e['a' + n][i][0];
+  return e['arr' + n][i][0];
 }
 function instruct() {
   let us_vs_them = calculate_us_vs_them(
@@ -96,7 +97,7 @@ function instruct() {
     <span class="them_adv_row">${e.get_them()}
     <small>(adv ${e.get_them_adv()})</small></span>`;
 }
-function reset_button(){
+function reset_button() {
   e.change_n(e.reset.n);
   e.change_us(e.reset.u);
   e.change_them(e.reset.t);
@@ -125,16 +126,36 @@ function prepare_player_numbers_section() {
     });
   });
 }
-function prepare_keypads() {
-  document.querySelectorAll('.us_nbr_keypad').forEach( i => {
-    i.addEventListener('click', () => {
-        us_keypad_button_fn(i.value);
-      });
+function us_input() {
+  let el = document.querySelector('#us_input');
+  e.change_us(Number.parseFloat(el.value));
+  el.addEventListener('input', () => {
+    e.change_us(Number.parseFloat(el.value));
+    instruct();
   });
-  document.querySelectorAll('.them_nbr_keypad').forEach( i => {
-    i.addEventListener('click', () => {
-        them_keypad_button_fn(i.value);
-      });
+}
+function them_input() {
+  let el = document.querySelector('#them_input');
+  e.change_them(Number.parseFloat(el.value));
+  el.addEventListener('input', () => {
+    e.change_them(Number.parseFloat(el.value));
+    instruct();
+  });
+}
+function us_adv_input() {
+  let el = document.querySelector('#us_adv_input');
+  e.change_us_adv(Number.parseFloat(el.value));
+  el.addEventListener('input', () => {
+    e.change_us_adv(Number.parseFloat(el.value));
+    instruct();
+  });
+}
+function them_adv_input() {
+  let el = document.querySelector('#them_adv_input');
+  e.change_them_adv(Number.parseFloat(el.value));
+  el.addEventListener('input', () => {
+    e.change_them_adv(Number.parseFloat(el.value));
+    instruct();
   });
 }
 function us_keypad_button_fn(x) {
@@ -164,6 +185,18 @@ function them_clear_button() {
   e.change_them(Number.parseFloat(result_string));
   el.value = result_string;
   instruct();
+}
+function prepare_keypads() {
+  document.querySelectorAll('.us_nbr_keypad').forEach( i => {
+    i.addEventListener('click', () => {
+        us_keypad_button_fn(i.value);
+      });
+  });
+  document.querySelectorAll('.them_nbr_keypad').forEach( i => {
+    i.addEventListener('click', () => {
+        them_keypad_button_fn(i.value);
+      });
+  });
 }
 function prepare_adv_buttons() {
   document.querySelector('#us_adv_minus_button')
@@ -199,47 +232,15 @@ function prepare_adv_buttons() {
       }
     );
 }
-function us_input() {
-  let el = document.querySelector('#us_input');
-  e.change_us(Number.parseFloat(el.value));
-  el.addEventListener('input', () => {
-    e.change_us(Number.parseFloat(el.value));
-    instruct();
-  });
-}
-function them_input() {
-  let el = document.querySelector('#them_input');
-  e.change_them(Number.parseFloat(el.value));
-  el.addEventListener('input', () => {
-    e.change_them(Number.parseFloat(el.value));
-    instruct();
-  });
-}
-function us_adv_input() {
-  let el = document.querySelector('#us_adv_input');
-  e.change_us_adv(Number.parseFloat(el.value));
-  el.addEventListener('input', () => {
-    e.change_us_adv(Number.parseFloat(el.value));
-    instruct();
-  });
-}
-function them_adv_input() {
-  let el = document.querySelector('#them_adv_input');
-  e.change_them_adv(Number.parseFloat(el.value));
-  el.addEventListener('input', () => {
-    e.change_them_adv(Number.parseFloat(el.value));
-    instruct();
-  });
-}
 function main() {
   e.force_ratio_recur();
   prepare_player_numbers_section();
-  prepare_keypads();
-  prepare_adv_buttons();
   us_input();
   them_input();
   us_adv_input();
   them_adv_input();
+  prepare_keypads();
+  prepare_adv_buttons();
   document.querySelector('#reset_button')
     .addEventListener( 'click', reset_button );
   document.querySelector('#us_clear_button')
