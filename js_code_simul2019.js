@@ -172,20 +172,6 @@ function them_keypad_button_fn(x) {
   el.value = result_string;
   instruct();
 }
-function us_clear_button() {
-  let el = document.querySelector('#us_input');
-  let result_string =  el.value.slice(0, -1);
-  e.change_us(Number.parseFloat(result_string));
-  el.value = result_string;
-  instruct();
-}
-function them_clear_button() {
-  let el = document.querySelector('#them_input');
-  let result_string =  el.value.slice(0, -1);
-  e.change_them(Number.parseFloat(result_string));
-  el.value = result_string;
-  instruct();
-}
 function prepare_keypads() {
   document.querySelectorAll('.us_nbr_keypad').forEach( i => {
     i.addEventListener('click', () => {
@@ -231,6 +217,20 @@ function prepare_adv_buttons() {
       instruct();
       }
     );
+}
+function us_clear_button() {
+  let el = document.querySelector('#us_input');
+  let result_string =  el.value.slice(0, -1);
+  e.change_us(Number.parseFloat(result_string));
+  el.value = result_string;
+  instruct();
+}
+function them_clear_button() {
+  let el = document.querySelector('#them_input');
+  let result_string =  el.value.slice(0, -1);
+  e.change_them(Number.parseFloat(result_string));
+  el.value = result_string;
+  instruct();
 }
 function main() {
   e.force_ratio_recur();
