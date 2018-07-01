@@ -28,6 +28,16 @@ function pos_finite_predicate(x) {
     return true;
   }
 }
+function calculate_us_vs_them(us, them, adv_us, adv_them) {
+  function logarithmic_scaling(delta) {
+    return 2 * Math.log(Math.abs(delta) + 1);
+  }
+  let delta_adv = adv_us - adv_them;
+  let force_multiplier =
+  (delta_adv > 0) ? logarithmic_scaling(delta_adv) :
+    (delta_adv < 0) ? ( 1 / logarithmic_scaling(delta_adv) ) : 1;
+  return (us / them) * force_multiplier;
+}
 /*
 Impure functions below including:
 state closure "e" with: protagonist total, "us"; antagonist total, "them";
@@ -66,23 +76,13 @@ const e = (function () {
   };
   return enc;
 }());
-function calculate_us_vs_them(us, them, adv_us, adv_them) {
-  let delta_adv = adv_us - adv_them;
-  function logarithmic_scaling(delta){
-    return 2 * Math.log(Math.abs(delta) + 1);
-  }
-  let force_multiplier =
-  (delta_adv > 0) ? logarithmic_scaling(delta_adv) :
-    (delta_adv < 0) ? ( 1 / logarithmic_scaling(delta_adv) ) : 1;
-  return (us / them) * force_multiplier;
-}
 function instructions(n, us_vs_them) {
   let fr_array = e['arr' + n].map( ([,y]) => y );
+  // find theoretical dice force_ratio (fr) nearest to actual us_vs_them value
   let difference_array = fr_array.map( (x) => Math.abs(x - us_vs_them) );
-  let least_difference = difference_array.reduce( (x, y) => Math.min(x, y) );
-  // index of least different
-  let i = difference_array.indexOf(least_difference);
-  return e['arr' + n][i][0];
+  let least_different = difference_array.reduce( (x, y) => Math.min(x, y) );
+  let index_of_least_different = difference_array.indexOf(least_different);
+  return e['arr' + n][index_of_least_different][0];
 }
 function instruct() {
   let us_vs_them = calculate_us_vs_them(
