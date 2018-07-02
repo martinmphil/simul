@@ -11,6 +11,8 @@ Basically:-
 * enter the number of active players,
 * app says which dice to roll.
 
+All players throw dice together after saying "Ready, steady, roll!"
+
 Simulations cover any comparable measure (eg knights in an army, spaceships in opposing fleets, diplomats in rival trade missions, etc.) In this open-ended system "Us" and "Them" values can sum any number of units.
 
 Summary
