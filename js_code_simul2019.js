@@ -51,7 +51,7 @@ const e = (function () {
   let them = 10;
   let adv_us = 0;
   let adv_them = 0;
-  let dice_available = [6, 8, 12, 20, 100]; // [6, 8, 12, 20, 100]
+  let dice_available = [6, 8, 12, 20, 100]; // [4, 6, 8, 12, 20, 100]
   let enc = {};
   enc.reset = {n:player_nbrs, u:us, t:them, ua:adv_us, ta:adv_them};
   enc.change_n = (x) => player_nbrs =
@@ -96,21 +96,6 @@ function instruct() {
     <small>(adv ${e.get_us_adv()})</small></span>
     <span class="them_adv_row">${e.get_them()}
     <small>(adv ${e.get_them_adv()})</small></span>`;
-}
-function reset_button() {
-  e.change_n(e.reset.n);
-  e.change_us(e.reset.u);
-  e.change_them(e.reset.t);
-  e.change_us_adv(e.reset.ua);
-  e.change_them_adv(e.reset.ta);
-  document.querySelector('.pickedBttn').classList.add('availBttn');
-  document.querySelector('.pickedBttn').classList.remove('pickedBttn');
-  prepare_player_numbers_section();
-  document.querySelector('#us_input').value = e.reset.u;
-  document.querySelector('#them_input').value = e.reset.t;
-  document.querySelector('#us_adv_input').value = e.reset.ua;
-  document.querySelector('#them_adv_input').value = e.reset.ta;
-  instruct();
 }
 function prepare_player_numbers_section() {
   document.querySelector('#pbttn' + e.get_n()).classList.remove('availBttn');
@@ -232,6 +217,21 @@ function them_clear_button() {
   el.value = result_string;
   instruct();
 }
+function reset_button() {
+  e.change_n(e.reset.n);
+  e.change_us(e.reset.u);
+  e.change_them(e.reset.t);
+  e.change_us_adv(e.reset.ua);
+  e.change_them_adv(e.reset.ta);
+  document.querySelector('.pickedBttn').classList.add('availBttn');
+  document.querySelector('.pickedBttn').classList.remove('pickedBttn');
+  prepare_player_numbers_section();
+  document.querySelector('#us_input').value = e.reset.u;
+  document.querySelector('#them_input').value = e.reset.t;
+  document.querySelector('#us_adv_input').value = e.reset.ua;
+  document.querySelector('#them_adv_input').value = e.reset.ta;
+  instruct();
+}
 function main() {
   e.force_ratio_recur();
   prepare_player_numbers_section();
@@ -241,12 +241,12 @@ function main() {
   them_adv_input();
   prepare_keypads();
   prepare_adv_buttons();
-  document.querySelector('#reset_button')
-    .addEventListener( 'click', reset_button );
   document.querySelector('#us_clear_button')
     .addEventListener( 'click', us_clear_button );
   document.querySelector('#them_clear_button')
     .addEventListener( 'click', them_clear_button );
+  document.querySelector('#reset_button')
+    .addEventListener( 'click', reset_button );
   reset_button();
 }
 main();
