@@ -70,7 +70,7 @@ const e = (function () {
   enc.force_ratio_recur = function chances(x = max_player_nbrs) {
     if (x < 1) {return;}
     let result = s_t_longlist(dice_available)
-      .map ( ([y, z]) => [`${x}d${y} target ${z}`, force_ratio(x, y, z)] );
+      .map( ([y, z]) => [`${x}d${y} target ${z}`, force_ratio(x, y, z)] );
     enc['arr' + x] = result.filter( ([, k]) => pos_finite_predicate(k) );
     return chances(x - 1);
   };
