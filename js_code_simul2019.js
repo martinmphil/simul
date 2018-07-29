@@ -1,252 +1,261 @@
-'use strict';
+'use strict'
 // Pure functions with "n" players, "s" sided dice and target roll "t".
-function force_ratio(n, s, t) {
-  let p = ( 1 - Math.pow( (( t - 1) / s), n) );
-  let result
-    = (p < 0.5) ? (2 * p)
+function forceRatio (n, s, t) {
+  let p = (1 - Math.pow(((t - 1) / s), n))
+  let result = (p < 0.5) ? (2 * p)
     : (p > 0.75) ? (1 / (2 - 2 * p))
-    : ((4 * p) - 1);
-  return result;
+      : ((4 * p) - 1)
+  return result
 }
-function range_t(s) {
+function rangeT (s) {
   let result = [];
-  (function range_recur(x) {
-    if (x <= 1) {return result;}
-    result[x - 2] = x;
-    return range_recur(x - 1);
-  })(s);
-  return result.reverse();
+  (function rangeRecur (x) {
+    if (x <= 1) { return result }
+    result[x - 2] = x
+    return rangeRecur(x - 1)
+  })(s)
+  return result.reverse()
 }
-function dice_s_t_pairs(x) {
-  return range_t(x).map( (y) => [x, y] );
+function diceSidesTargetPairs (x) {
+  return rangeT(x).map((y) => [x, y])
 }
-function s_t_longlist(x) {
-  return x.map( (y) => dice_s_t_pairs(y) ).reduce((a, b) => a.concat(b));
+function sidesTargetLonglist (x) {
+  return x.map((y) => diceSidesTargetPairs(y)).reduce((a, b) => a.concat(b))
 }
-function pos_finite_predicate(x) {
+function posFinitePredicate (x) {
   if (x > 0 && Number.isFinite(x)) {
-    return true;
+    return true
   }
 }
-function calculate_us_vs_them(us, them, adv_us, adv_them) {
-  function logarithmic_scaling(delta) {
-    return 2 * Math.log(Math.abs(delta) + 1);
+function calculateUsVsThem (us, them, advUs, advThem) {
+  function logarithmicScaling (delta) {
+    return 2 * Math.log(Math.abs(delta) + 1)
   }
-  let delta_adv = adv_us - adv_them;
-  let force_multiplier =
-  (delta_adv > 0) ? logarithmic_scaling(delta_adv) :
-    (delta_adv < 0) ? ( 1 / logarithmic_scaling(delta_adv) ) : 1;
-  return (us / them) * force_multiplier;
+  let deltaAdv = advUs - advThem
+  let forceMultiplier =
+  (deltaAdv > 0) ? logarithmicScaling(deltaAdv)
+    : (deltaAdv < 0) ? (1 / logarithmicScaling(deltaAdv)) : 1
+  return (us / them) * forceMultiplier
 }
 /*
 Impure functions below including:
 state closure "e" with: protagonist total, "us"; antagonist total, "them";
-advantage us, "adv_us"; advantage them, "adv_them";
-array of polyhedral dice sides, "dice_available".
+advantage us, "advUs"; advantage them, "advThem";
+array of polyhedral dice sides, "diceAvailable".
 */
 const e = (function () {
-  let max_player_nbrs = 6;
-  let player_nbrs = 3;
-  let us = 10;
-  let them = 10;
-  let adv_us = 0;
-  let adv_them = 0;
-  let dice_available = [6, 8, 12, 20, 100]; // [4, 6, 8, 12, 20, 100]
-  let enc = {};
-  enc.reset = {n:player_nbrs, u:us, t:them, ua:adv_us, ta:adv_them};
-  enc.change_n = (x) => player_nbrs =
-    (Number.isInteger(x) && x > 0 && x <= max_player_nbrs) ? x : player_nbrs;
-  enc.change_us = (x) => us = pos_finite_predicate(x) ? x : us;
-  enc.change_them = (x) => them = pos_finite_predicate(x) ? x : them;
-  enc.change_us_adv = (x) => adv_us = Number.isFinite(x) ? x : adv_us;
-  enc.change_them_adv = (x) => adv_them = Number.isFinite(x) ? x : adv_them;
-  enc.get_n = () => player_nbrs;
-  enc.get_us = () => us;
-  enc.get_them = () => them;
-  enc.get_us_adv = () => adv_us;
-  enc.get_them_adv = () => adv_them;
-  // fn returning lists of [instruction, force_ratio] in nested array for each n
+  let maxPlayerNbrs = 6
+  let playerNbrs = 3
+  let us = 10
+  let them = 10
+  let advUs = 0
+  let advThem = 0
+  let diceAvailable = [6, 8, 12, 20, 100] // [4, 6, 8, 12, 20, 100]
+  let enc = {}
+  enc.reset = {n: playerNbrs, u: us, t: them, ua: advUs, ta: advThem}
+  enc.change_n = (x) => {
+    playerNbrs =
+      (Number.isInteger(x) && x > 0 && x <= maxPlayerNbrs) ? x : playerNbrs
+  }
+  enc.change_us = (x) => {
+    us = posFinitePredicate(x) ? x : us
+  }
+  enc.change_them = (x) => {
+    them = posFinitePredicate(x) ? x : them
+  }
+  enc.change_us_adv = (x) => {
+    advUs = Number.isFinite(x) ? x : advUs
+  }
+  enc.change_them_adv = (x) => {
+    advThem = Number.isFinite(x) ? x : advThem
+  }
+  enc.get_n = () => playerNbrs
+  enc.get_us = () => us
+  enc.get_them = () => them
+  enc.get_us_adv = () => advUs
+  enc.get_them_adv = () => advThem
+  // fn returning lists of [instruction, forceRatio] in nested array for each n
   // accessed as e.arr1, e.arr2, etc.
-  enc.force_ratio_recur = function chances(x = max_player_nbrs) {
-    if (x < 1) {return;}
-    let result = s_t_longlist(dice_available)
-      .map( ([y, z]) => [`${x}d${y} target ${z}`, force_ratio(x, y, z)] );
-    enc['arr' + x] = result.filter( ([, k]) => pos_finite_predicate(k) );
-    return chances(x - 1);
-  };
-  return enc;
-}());
-function instructions(n, us_vs_them) {
-  let fr_array = e['arr' + n].map( ([,y]) => y );
-  // find theoretical dice force_ratio (fr) nearest to actual us_vs_them value
-  let difference_array = fr_array.map( (x) => Math.abs(x - us_vs_them) );
-  let least_different = difference_array.reduce( (x, y) => Math.min(x, y) );
-  let index_of_least_different = difference_array.indexOf(least_different);
-  return e['arr' + n][index_of_least_different][0];
+  enc.force_ratio_recur = function chances (x = maxPlayerNbrs) {
+    if (x < 1) { return }
+    let result = sidesTargetLonglist(diceAvailable)
+      .map(([y, z]) => [`${x}d${y} target ${z}`, forceRatio(x, y, z)])
+    enc['arr' + x] = result.filter(([, k]) => posFinitePredicate(k))
+    return chances(x - 1)
+  }
+  return enc
+}())
+function instructions (n, usVsThem) {
+  let forceRatioArray = e['arr' + n].map(([, y]) => y)
+  // find theoretical dice forceRatio (fr) nearest to actual usVsThem value
+  let differenceArray = forceRatioArray.map((x) => Math.abs(x - usVsThem))
+  let leastDifferent = differenceArray.reduce((x, y) => Math.min(x, y))
+  let indexOfLeastDifferent = differenceArray.indexOf(leastDifferent)
+  return e['arr' + n][indexOfLeastDifferent][0]
 }
-function instruct() {
-  let us_vs_them = calculate_us_vs_them(
+function instruct () {
+  let usVsThem = calculateUsVsThem(
     e.get_us(), e.get_them(), e.get_us_adv(), e.get_them_adv()
-  );
-  let ndst = instructions(e.get_n(), us_vs_them);
+  )
+  let ndst = instructions(e.get_n(), usVsThem)
   document.querySelector('#dice_roll_instructions').textContent =
-    `Roll ${ndst}.`;
+    `Roll ${ndst}.`
   document.querySelector('#we_they_summary').innerHTML =
     `<span class="us_adv_row">${e.get_us()}
     <small>(adv ${e.get_us_adv()})</small></span>
     <span class="them_adv_row">${e.get_them()}
-    <small>(adv ${e.get_them_adv()})</small></span>`;
+    <small>(adv ${e.get_them_adv()})</small></span>`
 }
-function prepare_player_numbers_section() {
-  document.querySelector('#pbttn' + e.get_n()).classList.remove('availBttn');
-  document.querySelector('#pbttn' + e.get_n()).classList.add('pickedBttn');
-  document.querySelectorAll('#pNbrs > input[type=button]').forEach( i => {
+function preparePlayerNumbersSection () {
+  document.querySelector('#pbttn' + e.get_n()).classList.remove('availBttn')
+  document.querySelector('#pbttn' + e.get_n()).classList.add('pickedBttn')
+  document.querySelectorAll('#pNbrs > input[type=button]').forEach(i => {
     i.addEventListener('click', () => {
-      e.change_n(parseInt(i.value));
-      instruct();
-      document.querySelector(".pickedBttn").classList.add("availBttn");
-      document.querySelector(".pickedBttn").classList.remove("pickedBttn");
-      i.classList.remove('availBttn');
-      i.classList.add('pickedBttn');
-    });
-  });
+      e.change_n(parseInt(i.value))
+      instruct()
+      document.querySelector('.pickedBttn').classList.add('availBttn')
+      document.querySelector('.pickedBttn').classList.remove('pickedBttn')
+      i.classList.remove('availBttn')
+      i.classList.add('pickedBttn')
+    })
+  })
 }
-function us_input() {
-  let el = document.querySelector('#us_input');
-  e.change_us(Number.parseFloat(el.value));
+function usInput () {
+  let el = document.querySelector('#us_input')
+  e.change_us(Number.parseFloat(el.value))
   el.addEventListener('input', () => {
-    e.change_us(Number.parseFloat(el.value));
-    instruct();
-  });
+    e.change_us(Number.parseFloat(el.value))
+    instruct()
+  })
 }
-function them_input() {
-  let el = document.querySelector('#them_input');
-  e.change_them(Number.parseFloat(el.value));
+function themInput () {
+  let el = document.querySelector('#them_input')
+  e.change_them(Number.parseFloat(el.value))
   el.addEventListener('input', () => {
-    e.change_them(Number.parseFloat(el.value));
-    instruct();
-  });
+    e.change_them(Number.parseFloat(el.value))
+    instruct()
+  })
 }
-function us_adv_input() {
-  let el = document.querySelector('#us_adv_input');
-  e.change_us_adv(Number.parseFloat(el.value));
+function usAdvInput () {
+  let el = document.querySelector('#us_adv_input')
+  e.change_us_adv(Number.parseFloat(el.value))
   el.addEventListener('input', () => {
-    e.change_us_adv(Number.parseFloat(el.value));
-    instruct();
-  });
+    e.change_us_adv(Number.parseFloat(el.value))
+    instruct()
+  })
 }
-function them_adv_input() {
-  let el = document.querySelector('#them_adv_input');
-  e.change_them_adv(Number.parseFloat(el.value));
+function themAdvInput () {
+  let el = document.querySelector('#them_adv_input')
+  e.change_them_adv(Number.parseFloat(el.value))
   el.addEventListener('input', () => {
-    e.change_them_adv(Number.parseFloat(el.value));
-    instruct();
-  });
+    e.change_them_adv(Number.parseFloat(el.value))
+    instruct()
+  })
 }
-function us_keypad_button_fn(x) {
-  let el = document.querySelector('#us_input');
-  let result_string = el.value + x;
-  e.change_us(Number.parseFloat(result_string));
-  el.value = result_string;
-  instruct();
+function usKeypadButtonFn (x) {
+  let el = document.querySelector('#us_input')
+  let resultString = el.value + x
+  e.change_us(Number.parseFloat(resultString))
+  el.value = resultString
+  instruct()
 }
-function them_keypad_button_fn(x) {
-  let el = document.querySelector('#them_input');
-  let result_string = el.value + x;
-  e.change_them(Number.parseFloat(result_string));
-  el.value = result_string;
-  instruct();
+function themKeypadButtonFn (x) {
+  let el = document.querySelector('#them_input')
+  let resultString = el.value + x
+  e.change_them(Number.parseFloat(resultString))
+  el.value = resultString
+  instruct()
 }
-function prepare_keypads() {
-  document.querySelectorAll('.us_nbr_keypad').forEach( i => {
+function prepareKeypads () {
+  document.querySelectorAll('.us_nbr_keypad').forEach(i => {
     i.addEventListener('click', () => {
-        us_keypad_button_fn(i.value);
-      });
-  });
-  document.querySelectorAll('.them_nbr_keypad').forEach( i => {
+      usKeypadButtonFn(i.value)
+    })
+  })
+  document.querySelectorAll('.them_nbr_keypad').forEach(i => {
     i.addEventListener('click', () => {
-        them_keypad_button_fn(i.value);
-      });
-  });
+      themKeypadButtonFn(i.value)
+    })
+  })
 }
-function prepare_adv_buttons() {
+function prepareAdvButtons () {
   document.querySelector('#us_adv_minus_button')
-    .addEventListener('click', () =>
-      {let result = e.get_us_adv() - 1;
-      e.change_us_adv(result);
-      document.querySelector('#us_adv_input').value = result;
-      instruct();
-      }
-    );
+    .addEventListener('click', () => {
+      let result = e.get_us_adv() - 1
+      e.change_us_adv(result)
+      document.querySelector('#us_adv_input').value = result
+      instruct()
+    }
+    )
   document.querySelector('#us_adv_plus_button')
-    .addEventListener('click', () =>
-      {let result = e.get_us_adv() + 1;
-      e.change_us_adv(result);
-      document.querySelector('#us_adv_input').value = result;
-      instruct();
-      }
-    );
+    .addEventListener('click', () => {
+      let result = e.get_us_adv() + 1
+      e.change_us_adv(result)
+      document.querySelector('#us_adv_input').value = result
+      instruct()
+    }
+    )
   document.querySelector('#them_adv_minus_button')
-    .addEventListener('click', () =>
-      {let result = e.get_them_adv() - 1;
-      e.change_them_adv(result);
-      document.querySelector('#them_adv_input').value = result;
-      instruct();
-      }
-    );
+    .addEventListener('click', () => {
+      let result = e.get_them_adv() - 1
+      e.change_them_adv(result)
+      document.querySelector('#them_adv_input').value = result
+      instruct()
+    }
+    )
   document.querySelector('#them_adv_plus_button')
-    .addEventListener('click', () =>
-      {let result = e.get_them_adv() + 1;
-      e.change_them_adv(result);
-      document.querySelector('#them_adv_input').value = result;
-      instruct();
-      }
-    );
+    .addEventListener('click', () => {
+      let result = e.get_them_adv() + 1
+      e.change_them_adv(result)
+      document.querySelector('#them_adv_input').value = result
+      instruct()
+    }
+    )
 }
-function us_clear_button() {
-  let el = document.querySelector('#us_input');
-  let result_string =  el.value.slice(0, -1);
-  e.change_us(Number.parseFloat(result_string));
-  el.value = result_string;
-  instruct();
+function usClearButton () {
+  let el = document.querySelector('#us_input')
+  let resultString = el.value.slice(0, -1)
+  e.change_us(Number.parseFloat(resultString))
+  el.value = resultString
+  instruct()
 }
-function them_clear_button() {
-  let el = document.querySelector('#them_input');
-  let result_string =  el.value.slice(0, -1);
-  e.change_them(Number.parseFloat(result_string));
-  el.value = result_string;
-  instruct();
+function themClearButton () {
+  let el = document.querySelector('#them_input')
+  let resultString = el.value.slice(0, -1)
+  e.change_them(Number.parseFloat(resultString))
+  el.value = resultString
+  instruct()
 }
-function reset_button() {
-  e.change_n(e.reset.n);
-  e.change_us(e.reset.u);
-  e.change_them(e.reset.t);
-  e.change_us_adv(e.reset.ua);
-  e.change_them_adv(e.reset.ta);
-  document.querySelector('.pickedBttn').classList.add('availBttn');
-  document.querySelector('.pickedBttn').classList.remove('pickedBttn');
-  prepare_player_numbers_section();
-  document.querySelector('#us_input').value = e.reset.u;
-  document.querySelector('#them_input').value = e.reset.t;
-  document.querySelector('#us_adv_input').value = e.reset.ua;
-  document.querySelector('#them_adv_input').value = e.reset.ta;
-  instruct();
+function resetButton () {
+  e.change_n(e.reset.n)
+  e.change_us(e.reset.u)
+  e.change_them(e.reset.t)
+  e.change_us_adv(e.reset.ua)
+  e.change_them_adv(e.reset.ta)
+  document.querySelector('.pickedBttn').classList.add('availBttn')
+  document.querySelector('.pickedBttn').classList.remove('pickedBttn')
+  preparePlayerNumbersSection()
+  document.querySelector('#us_input').value = e.reset.u
+  document.querySelector('#them_input').value = e.reset.t
+  document.querySelector('#us_adv_input').value = e.reset.ua
+  document.querySelector('#them_adv_input').value = e.reset.ta
+  instruct()
 }
-function main() {
-  e.force_ratio_recur();
-  prepare_player_numbers_section();
-  us_input();
-  them_input();
-  us_adv_input();
-  them_adv_input();
-  prepare_keypads();
-  prepare_adv_buttons();
+function main () {
+  e.force_ratio_recur()
+  preparePlayerNumbersSection()
+  usInput()
+  themInput()
+  usAdvInput()
+  themAdvInput()
+  prepareKeypads()
+  prepareAdvButtons()
   document.querySelector('#us_clear_button')
-    .addEventListener( 'click', us_clear_button );
+    .addEventListener('click', usClearButton)
   document.querySelector('#them_clear_button')
-    .addEventListener( 'click', them_clear_button );
+    .addEventListener('click', themClearButton)
   document.querySelector('#reset_button')
-    .addEventListener( 'click', reset_button );
-  reset_button();
+    .addEventListener('click', resetButton)
+  resetButton()
 }
-main();
+main()
