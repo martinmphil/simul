@@ -53,30 +53,30 @@ const enc = (function () {
   let diceAvailable = [6, 8, 12, 20, 100] // [4, 6, 8, 12, 20, 100]
   let enclosure = {}
   enclosure.reset = {n: playerNbrs, u: us, t: them, ua: advUs, ta: advThem}
-  enclosure.change_n = (x) => {
+  enclosure.changeN = (x) => {
     playerNbrs =
       (Number.isInteger(x) && x > 0 && x <= maxPlayerNbrs) ? x : playerNbrs
   }
-  enclosure.change_us = (x) => {
+  enclosure.changeUs = (x) => {
     us = posFinitePredicate(x) ? x : us
   }
-  enclosure.change_them = (x) => {
+  enclosure.changeThem = (x) => {
     them = posFinitePredicate(x) ? x : them
   }
-  enclosure.change_us_adv = (x) => {
+  enclosure.changeUsAdv = (x) => {
     advUs = Number.isFinite(x) ? x : advUs
   }
-  enclosure.change_them_adv = (x) => {
+  enclosure.changeThemAdv = (x) => {
     advThem = Number.isFinite(x) ? x : advThem
   }
-  enclosure.get_n = () => playerNbrs
-  enclosure.get_us = () => us
-  enclosure.get_them = () => them
-  enclosure.get_us_adv = () => advUs
-  enclosure.get_them_adv = () => advThem
+  enclosure.getN = () => playerNbrs
+  enclosure.getUs = () => us
+  enclosure.getThem = () => them
+  enclosure.getUsAdv = () => advUs
+  enclosure.getThemAdv = () => advThem
   // fn returning lists of [instruction, forceRatio] in nested array for each n
   // accessed as enc.arr1, enc.arr2, etc.
-  enclosure.force_ratio_recur = function chances (x = maxPlayerNbrs) {
+  enclosure.forceRatioRecur = function chances (x = maxPlayerNbrs) {
     if (x < 1) { return }
     let result = sidesTargetLonglist(diceAvailable)
       .map(([y, z]) => [`${x}d${y} target ${z}`, forceRatio(x, y, z)])
@@ -95,23 +95,23 @@ function instructions (n, usVsThem) {
 }
 function instruct () {
   let usVsThem = calculateUsVsThem(
-    enc.get_us(), enc.get_them(), enc.get_us_adv(), enc.get_them_adv()
+    enc.getUs(), enc.getThem(), enc.getUsAdv(), enc.getThemAdv()
   )
-  let ndst = instructions(enc.get_n(), usVsThem)
+  let ndst = instructions(enc.getN(), usVsThem)
   document.querySelector('#dice_roll_instructions').textContent =
     `Roll ${ndst}.`
   document.querySelector('#we_they_summary').innerHTML =
-    `<span class="us_adv_row">${enc.get_us()}
-    <small>(adv ${enc.get_us_adv()})</small></span>
-    <span class="them_adv_row">${enc.get_them()}
-    <small>(adv ${enc.get_them_adv()})</small></span>`
+    `<span class="us_adv_row">${enc.getUs()}
+    <small>(adv ${enc.getUsAdv()})</small></span>
+    <span class="them_adv_row">${enc.getThem()}
+    <small>(adv ${enc.getThemAdv()})</small></span>`
 }
 function preparePlayerNumbersSection () {
-  document.querySelector('#pbttn' + enc.get_n()).classList.remove('availBttn')
-  document.querySelector('#pbttn' + enc.get_n()).classList.add('pickedBttn')
+  document.querySelector('#pbttn' + enc.getN()).classList.remove('availBttn')
+  document.querySelector('#pbttn' + enc.getN()).classList.add('pickedBttn')
   document.querySelectorAll('#pNbrs > input[type=button]').forEach(i => {
     i.addEventListener('click', () => {
-      enc.change_n(parseInt(i.value))
+      enc.changeN(parseInt(i.value))
       instruct()
       document.querySelector('.pickedBttn').classList.add('availBttn')
       document.querySelector('.pickedBttn').classList.remove('pickedBttn')
@@ -122,47 +122,47 @@ function preparePlayerNumbersSection () {
 }
 function usInput () {
   let el = document.querySelector('#us_input')
-  enc.change_us(Number.parseFloat(el.value))
+  enc.changeUs(Number.parseFloat(el.value))
   el.addEventListener('input', () => {
-    enc.change_us(Number.parseFloat(el.value))
+    enc.changeUs(Number.parseFloat(el.value))
     instruct()
   })
 }
 function themInput () {
   let el = document.querySelector('#them_input')
-  enc.change_them(Number.parseFloat(el.value))
+  enc.changeThem(Number.parseFloat(el.value))
   el.addEventListener('input', () => {
-    enc.change_them(Number.parseFloat(el.value))
+    enc.changeThem(Number.parseFloat(el.value))
     instruct()
   })
 }
 function usAdvInput () {
   let el = document.querySelector('#us_adv_input')
-  enc.change_us_adv(Number.parseFloat(el.value))
+  enc.changeUsAdv(Number.parseFloat(el.value))
   el.addEventListener('input', () => {
-    enc.change_us_adv(Number.parseFloat(el.value))
+    enc.changeUsAdv(Number.parseFloat(el.value))
     instruct()
   })
 }
 function themAdvInput () {
   let el = document.querySelector('#them_adv_input')
-  enc.change_them_adv(Number.parseFloat(el.value))
+  enc.changeThemAdv(Number.parseFloat(el.value))
   el.addEventListener('input', () => {
-    enc.change_them_adv(Number.parseFloat(el.value))
+    enc.changeThemAdv(Number.parseFloat(el.value))
     instruct()
   })
 }
 function usKeypadButtonFn (x) {
   let el = document.querySelector('#us_input')
   let resultString = el.value + x
-  enc.change_us(Number.parseFloat(resultString))
+  enc.changeUs(Number.parseFloat(resultString))
   el.value = resultString
   instruct()
 }
 function themKeypadButtonFn (x) {
   let el = document.querySelector('#them_input')
   let resultString = el.value + x
-  enc.change_them(Number.parseFloat(resultString))
+  enc.changeThem(Number.parseFloat(resultString))
   el.value = resultString
   instruct()
 }
@@ -181,32 +181,32 @@ function prepareKeypads () {
 function prepareAdvButtons () {
   document.querySelector('#us_adv_minus_button')
     .addEventListener('click', () => {
-      let result = enc.get_us_adv() - 1
-      enc.change_us_adv(result)
+      let result = enc.getUsAdv() - 1
+      enc.changeUsAdv(result)
       document.querySelector('#us_adv_input').value = result
       instruct()
     }
     )
   document.querySelector('#us_adv_plus_button')
     .addEventListener('click', () => {
-      let result = enc.get_us_adv() + 1
-      enc.change_us_adv(result)
+      let result = enc.getUsAdv() + 1
+      enc.changeUsAdv(result)
       document.querySelector('#us_adv_input').value = result
       instruct()
     }
     )
   document.querySelector('#them_adv_minus_button')
     .addEventListener('click', () => {
-      let result = enc.get_them_adv() - 1
-      enc.change_them_adv(result)
+      let result = enc.getThemAdv() - 1
+      enc.changeThemAdv(result)
       document.querySelector('#them_adv_input').value = result
       instruct()
     }
     )
   document.querySelector('#them_adv_plus_button')
     .addEventListener('click', () => {
-      let result = enc.get_them_adv() + 1
-      enc.change_them_adv(result)
+      let result = enc.getThemAdv() + 1
+      enc.changeThemAdv(result)
       document.querySelector('#them_adv_input').value = result
       instruct()
     }
@@ -215,23 +215,23 @@ function prepareAdvButtons () {
 function usClearButton () {
   let el = document.querySelector('#us_input')
   let resultString = el.value.slice(0, -1)
-  enc.change_us(Number.parseFloat(resultString))
+  enc.changeUs(Number.parseFloat(resultString))
   el.value = resultString
   instruct()
 }
 function themClearButton () {
   let el = document.querySelector('#them_input')
   let resultString = el.value.slice(0, -1)
-  enc.change_them(Number.parseFloat(resultString))
+  enc.changeThem(Number.parseFloat(resultString))
   el.value = resultString
   instruct()
 }
 function resetButton () {
-  enc.change_n(enc.reset.n)
-  enc.change_us(enc.reset.u)
-  enc.change_them(enc.reset.t)
-  enc.change_us_adv(enc.reset.ua)
-  enc.change_them_adv(enc.reset.ta)
+  enc.changeN(enc.reset.n)
+  enc.changeUs(enc.reset.u)
+  enc.changeThem(enc.reset.t)
+  enc.changeUsAdv(enc.reset.ua)
+  enc.changeThemAdv(enc.reset.ta)
   document.querySelector('.pickedBttn').classList.add('availBttn')
   document.querySelector('.pickedBttn').classList.remove('pickedBttn')
   preparePlayerNumbersSection()
@@ -242,7 +242,7 @@ function resetButton () {
   instruct()
 }
 function main () {
-  enc.force_ratio_recur()
+  enc.forceRatioRecur()
   preparePlayerNumbersSection()
   usInput()
   themInput()
