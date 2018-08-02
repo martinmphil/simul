@@ -22,9 +22,9 @@ Summary
 * Open-ended
 * Simultaneous resolution of action
 
-Example JavaScript web app at [DanceWith.co.uk/tabletop2019/](http://www.dancewith.co.uk/tabletop2019/index.html)
+See JavaScript web app at [DanceWith.co.uk/tabletop2019/](http://www.dancewith.co.uk/tabletop2019/index.html)
 and outline [rules](http://www.dancewith.co.uk/rpg)
-with example [adventures](https://enchantedstar.co.uk/)
+with sample [adventures](https://enchantedstar.co.uk/)
 eg science-fiction :-
 
 > The Commonwealth spanned a thousand light years. Yet losing the local jump-gate reinvented money. Now even comms cost cash. So the young pilot keeps his message short. "Hi Honey. I miss our life before the Navy. I wish I'd stayed freelance and never 'volunteered' for counter-espionage. Everyone's become so suspicious since The Attack. But reputation still opens doors and I found gangsters plotting to ransom our new gate so I'm trying to stop them. Happy hunting.
