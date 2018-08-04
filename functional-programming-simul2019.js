@@ -20,7 +20,7 @@ function diceSidesTargetPairs (x) {
   return rangeT(x).map((y) => [x, y])
 }
 function sidesTargetLonglist (x) {
-  return x.map((y) => diceSidesTargetPairs(y)).reduce((a, b) => a.concat(b))
+  return x.map((y) => diceSidesTargetPairs(y)).reduce((a, b) => [...a, ...b])
 }
 function posFinitePredicate (x) {
   if (x > 0 && Number.isFinite(x)) {
