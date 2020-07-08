@@ -1,0 +1,184 @@
+/* width & height includes padding + border */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(16, 16, 16);
+  color: white;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+h1,
+h2 {
+  display: inline;
+  font-weight: 100;
+  font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+  font-size: 120%;
+}
+h2 {
+  font-size: 100%;
+}
+
+h1 a {
+  color: hsl(50, 100%, 50%);
+}
+
+button {
+  cursor: pointer;
+}
+
+.d100checkbox {
+  float: left;
+}
+
+.resetButtonContainer {
+  float: right;
+}
+
+/* Green */
+.playerNbrsFieldset {
+  clear: both;
+  border: none;
+  text-align: center;
+}
+.flexboxWrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap-reverse;
+}
+.playerNbrsFieldset label {
+  background-color: hsl(124, 40%, 40%);
+  font-size: 120%;
+  cursor: pointer;
+  margin: 0.2em 0.2em;
+  padding: 0.6em 1em;
+  border: solid;
+  border-color: rgba(0, 0, 0, 0.4);
+  border-radius: 0.4em;
+}
+.playerNbrsFieldset input[type="radio"] {
+  opacity: 0;
+  position: fixed;
+  width: 0;
+}
+input[type="radio"]:checked + label {
+  color: black;
+  background-color: white;
+}
+
+/* Both blue and red */
+.bothUsAndThemForm {
+  margin: auto;
+  text-align: center;
+}
+.bothUsAndThemForm fieldset {
+  display: inline-block;
+  padding: 0.5em;
+  margin: auto;
+  border-color: rgb(64, 64, 64);
+  max-width: 18em;
+}
+.bothUsAndThemForm button {
+  margin: 0.2em 0.2em;
+  padding: 0.6em 1em;
+  border: solid;
+  border-color: rgba(0, 0, 0, 0.4);
+  border-radius: 0.4em;
+}
+.bothUsAndThemForm h3,
+.bothUsAndThemForm h4 {
+  font-weight: 100;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 0em;
+  margin-bottom: 0.2em;
+}
+.usOrThemInputs h3 {
+  text-align: left;
+}
+.usOrThemInputs input {
+  font-size: 150%;
+  width: 100%;
+  padding: 0.2em;
+}
+.usOrThemInputs button {
+  font-size: 100%;
+  background-color: white;
+}
+#minus1Us,
+#minus1Them {
+  float: left;
+  margin-left: 0em;
+}
+#plus1Us,
+#plus1Them {
+  float: right;
+  margin-right: 0em;
+}
+.bothAdvantageInputSections {
+  clear: both;
+  padding-bottom: 0.1em;
+}
+.bothAdvantageInputSections h4 {
+  font-size: 90%;
+}
+.bothAdvantageInputSections input {
+  font-size: 100%;
+  max-width: 4em;
+}
+.usFieldset {
+  background-color: hsl(240, 100%, 20%);
+}
+.themFieldset {
+  background-color: hsl(340, 100%, 15%);
+}
+.advantageUsSection h4 {
+  color: hsl(190, 100%, 70%);
+}
+.advantageUsSection button,
+.advantageUsSection input {
+  background-color: hsl(190, 100%, 70%);
+}
+.advantageThemSection h4 {
+  color: hsl(0, 80%, 70%);
+}
+.advantageThemSection button,
+.advantageThemSection input {
+  background-color: hsl(0, 80%, 70%);
+}
+
+output > div {
+  text-align: center;
+  font-size: 200%;
+  margin-top: 0.2rem;
+}
+
+footer {
+  text-align: center;
+  font-size: small;
+}
+#precisUs {
+  color: hsl(190, 100%, 70%);
+}
+#precisThem {
+  color: hsl(0, 80%, 70%);
+}
+
+@media only screen and (min-width: 24em) {
+  body {
+    margin: 1em;
+  }
+}
+@media only screen and (min-width: 52em) {
+  body {
+    max-width: 50em;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
