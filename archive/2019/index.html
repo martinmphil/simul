@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<meta charset="utf-8">
+<title>2019 us-vs-them: tabletop role-playing game</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Us-vs-Them role-playing game dice mechanic." />
+<meta name="keywords" content="Us-vs-Them, dice mechanic, RPG, role-playing game" />
+<meta name="author" content="martin@dancewith.co.uk" />
+<meta name="created" content="2018-06-20" />
+<link rel="icon" type="image/x-icon" sizes="16x16" href="http://www.dancewith.co.uk/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="http://www.dancewith.co.uk/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://www.dancewith.co.uk/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="http://www.dancewith.co.uk/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="http://www.dancewith.co.uk/favicon-16x16.png">
+<link rel="stylesheet" type="text/css" href="simul2019.css" />
+<body>
+<div id="col"><!--open col-->
+  <button type="button" id="reset_button" class="gerneric_button">Reset</button>
+  <a class="top_right_link_back" href="http://www.dancewith.co.uk/rpg/">DanceWith.co.uk/rpg</a>
+  <p>Please select number of players.</p>
+  <div id="pNbrs"><!--open section holding buttons to select number of players-->
+    <input type="button" class="playerNbrsBttn availBttn" id="pbttn1" value="1">
+    <input type="button" class="playerNbrsBttn availBttn" id="pbttn2" value="2">
+    <input type="button" class="playerNbrsBttn availBttn" id="pbttn3" value="3">
+    <input type="button" class="playerNbrsBttn availBttn" id="pbttn4" value="4">
+    <input type="button" class="playerNbrsBttn availBttn" id="pbttn5" value="5">
+    <input type="button" class="playerNbrsBttn availBttn" id="pbttn6" value="6">
+    <!--<input type="button" class="playerNbrsBttn availBttn" id="pbttn7" value="7">
+    <input type="button" class="playerNbrsBttn availBttn" id="pbttn8" value="8">
+    <input type="button" class="playerNbrsBttn availBttn" id="pbttn9" value="9">
+    -->
+  </div><!--close section holding buttons to select number of players-->
+</div><!--close col-->
+<div id="blue_and_red_sections">
+  <section id="us_section" class="us_and_them">
+    <h2>Us </h2>
+    <input type="number" id="us_input" min="0" value="10">
+    <div class="keypad">
+      <div class="keypad_row">
+        <input type="button" id="usNbrKey7" class="gerneric_button casio us_nbr_keypad" value="7">
+        <input type="button" id="usNbrKey8" class="gerneric_button casio us_nbr_keypad" value="8">
+        <input type="button" id="usNbrKey9" class="gerneric_button casio us_nbr_keypad" value="9">
+      </div>
+      <div class="keypad_row">
+        <input type="button" id="usNbrKey4" class="gerneric_button casio us_nbr_keypad" value="4">
+        <input type="button" id="usNbrKey5" class="gerneric_button casio us_nbr_keypad" value="5">
+        <input type="button" id="usNbrKey6" class="gerneric_button casio us_nbr_keypad" value="6">
+      </div>
+      <div class="keypad_row">
+        <input type="button" id="usNbrKey1" class="gerneric_button casio us_nbr_keypad" value="1">
+        <input type="button" id="usNbrKey2" class="gerneric_button casio us_nbr_keypad" value="2">
+        <input type="button" id="usNbrKey3" class="gerneric_button casio us_nbr_keypad" value="3">
+      </div>
+      <div class="keypad_row">
+        <input type="button" class="casio spacer" value=".">
+        <input type="button" class="gerneric_button casio us_nbr_keypad" value="0">
+        <input type="button" id="us_clear_button" class="gerneric_button casio dim_button" value="c">
+      </div>
+      <div class="us_adv_row">
+        <div class="adv_heading">Advantages</div>
+        <input type="button" id="us_adv_minus_button" 
+          class="gerneric_button casio dim_button us_adv_disadv" value="-">
+        <input type="number" id="us_adv_input" class="show_adv us_adv_disadv" value="0">
+        <input type="button" id="us_adv_plus_button" 
+          class="gerneric_button casio us_adv_disadv" value="+">
+      </div>
+    </div><!--close keypad-->
+  </section>
+  <section id="them_section" class="us_and_them">
+    <h2>Them </h2>
+    <input type="number" id="them_input" min="0" value="10">
+    <div class="keypad">
+      <div class="keypad_row">
+        <input type="button" id="themNbrKey7" class="gerneric_button casio them_nbr_keypad" value="7">
+        <input type="button" id="themNbrKey8" class="gerneric_button casio them_nbr_keypad" value="8">
+        <input type="button" id="themNbrKey9" class="gerneric_button casio them_nbr_keypad" value="9">
+      </div>
+      <div class="keypad_row">
+        <input type="button" id="themNbrKey4" class="gerneric_button casio them_nbr_keypad" value="4">
+        <input type="button" id="themNbrKey5" class="gerneric_button casio them_nbr_keypad" value="5">
+        <input type="button" id="themNbrKey6" class="gerneric_button casio them_nbr_keypad" value="6">
+      </div>
+      <div class="keypad_row">
+        <input type="button" id="themNbrKey1" class="gerneric_button casio them_nbr_keypad" value="1">
+        <input type="button" id="themNbrKey2" class="gerneric_button casio them_nbr_keypad" value="2">
+        <input type="button" id="themNbrKey3" class="gerneric_button casio them_nbr_keypad" value="3">
+      </div>
+      <div class="keypad_row">
+        <input type="button" class="casio spacer" value=".">
+        <input type="button" class="gerneric_button casio them_nbr_keypad" value="0">
+        <input type="button" id="them_clear_button" class="gerneric_button casio dim_button" value="c">
+      </div>
+      <div class="them_adv_row">
+        <div class="adv_heading">Advantages</div>
+        <input type="button" id="them_adv_minus_button" 
+          class="gerneric_button casio dim_button them_adv_disadv" value="-">
+        <input type="number" id="them_adv_input" class="show_adv them_adv_disadv" value="0">
+        <input type="button" id="them_adv_plus_button" 
+          class="gerneric_button casio them_adv_disadv" value="+">
+      </div>
+    </div><!--close keypad-->
+  </section>
+</div><!--blue_and_red_sections-->
+<div id="dice_roll_instructions">
+  Please enable JavaScript and/or upgrade your browser.
+</div>
+<div id="we_they_summary">
+  we versus they
+</div>
+<script src="functional-programming-simul2019.js"></script>
+</body>
+</html>
